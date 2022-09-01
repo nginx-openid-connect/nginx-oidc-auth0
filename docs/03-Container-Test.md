@@ -37,7 +37,7 @@ Take the following steps to run NGINX Plus in a Docker container and test OIDC f
 
 ## 3. Run a Browser and Test OIDC
 
-- **Run** a Web Browser with `http://nginx.auth0.test:8011/`:
+- **Run** a Web Browser with `https://nginx.auth0.test`, and enter an `IdP application`'s `client ID`:
 
   ![](./img/run-browser.png)
 
@@ -53,13 +53,17 @@ Take the following steps to run NGINX Plus in a Docker container and test OIDC f
 
 - **Test** a secured sample API with access token by clicking `Call a Sample Proxied API`:
 
+  > **Note:**
+  >
+  > Modify an URI if you want to test one of your API endpoints where access token is included in the header.
+
   ![](./img/sample-api.png)
 
   - An endpoint of sample API is defined in `oidc_frontend_backend.conf`. You can add any API endpoint when you want to use an access token by referencing the following example:
 
   ```nginx
       location /v1/api/example {
-          auth_jwt "" token=$session_jwt;
+          auth_jwt "" token=$id_token;
           auth_jwt_key_request /_jwks_uri;        # Enable when using URL
 
           proxy_set_header Authorization "Bearer $access_token";
