@@ -4,7 +4,13 @@ Reference implementation of NGINX Plus as relying party for OpenID Connect authe
 
 This repo provides the information of how to set up Auth0, integrate with NGINX Plus, and test using a containerized NGINX Plus app, a frontend OIDC simulation tool, and a NGINX Dev Portal.
 
-## Getting Started
+- [Getting Started](#🏠-getting-started)
+- [Troubleshooting](#🔧-troubleshooting)
+- [References](#📚-references)
+
+<br>
+
+## 🏠 Getting Started
 
 ### Set up an identity provider (IdP)
 
@@ -13,13 +19,15 @@ This repo provides the information of how to set up Auth0, integrate with NGINX 
 ### Option 1. Directly set up a SSO application via NGINX Plus
 
 - [Configure NGINX Plus OIDC](./docs/02-NGINX-Plus-Setup.md)
-- [Test your app with OIDC in a container](./docs/03-Container-Test.md)
+- [Test an SSO app in a container ](./docs/03-Container-Test.md)
 
 ### Option 2. Set up a SSO application via NGINX ACM
 
 - [Configure and test NGINX Dev Portal OIDC](./docs/04-NGINX-DevPortal-Test.md)
 
-## Troubleshooting FAQs
+<br>
+
+## 🔧 Troubleshooting
 
 - How to ensure that Auth0 correctly set up before configuring your app or NGINX Dev Portal?
 
@@ -27,10 +35,14 @@ This repo provides the information of how to set up Auth0, integrate with NGINX 
 
 - How to troubleshoot when PKCE is not working with Auth0?
 - How to troubleshoot when none-PKCE is not working with Auth0?
+- How to troubleshoot when logout is not working with Auth0?
 - How to troubleshoot when dns server is not responding?
+- How to troubleshoot when a frontend OIDC simulation tool is not working with `X-Client-Id should be in cookie`. when signing-in after signed-out?
 - [Additional troubleshooting information](https://github.com/nginxinc/nginx-openid-connect#troubleshooting)
 
-## References
+<br>
+
+## 📚 References
 
 - [NGINX OIDC Core v1.0: Forked from NGINX GitHub](https://github.com/nginx-openid-connect/nginx-oidc-core-v1)
 - [NGINX Plus: Single Sign-On With Auth0](https://docs.nginx.com/nginx/deployment-guides/single-sign-on/auth0/)
