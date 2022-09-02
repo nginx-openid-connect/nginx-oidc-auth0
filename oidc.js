@@ -31,6 +31,7 @@ export default {
     logout,
     redirectPostLogin,
     redirectPostLogout,
+    redirectToLogin,
     tokenEncoder,
     validateIdToken,
     validateAccessToken,
@@ -241,6 +242,12 @@ function redirectPostLogin(r) {
 function redirectPostLogout(r) {
     r.return(302, r.variables.post_logout_return_uri);
 }
+
+// Redirect Login when requesting an API endpoint.
+function redirectToLogin(r) {
+    r.return(302, r.variables.redirect_base + '/login');
+}
+
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                             *
