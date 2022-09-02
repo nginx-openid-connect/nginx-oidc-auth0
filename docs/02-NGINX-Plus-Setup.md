@@ -112,7 +112,7 @@ Take the following steps to set up NGINX Plus as the OpenID Connect relying part
 
 ## Optional Configuration
 
-This repo provides a sample container environment. So you can skip this step if you would like to simpley test with a container.
+This repo provides a sample container environment. So you can skip this step if you would like to locally test with a container.
 
 1. Copy the following files to the `/etc/nginx/conf.d` directory on the host machine where NGINX Plus is installed:
 

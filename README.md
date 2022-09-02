@@ -4,6 +4,8 @@ Reference implementation of NGINX Plus as relying party for OpenID Connect authe
 
 This repo provides the information of how to set up Auth0, integrate with NGINX Plus, and test using a containerized NGINX Plus app, a frontend OIDC simulation tool, and a NGINX Dev Portal.
 
+![](./docs/img/nginx-oidc-workflow.png)
+
 - [Getting Started](#🏠-getting-started)
 - [Troubleshooting](#🔧-troubleshooting)
 - [References](#📚-references)
