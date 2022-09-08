@@ -59,7 +59,7 @@ Take the following steps to set up NGINX Plus as the OpenID Connect relying part
    }
 
    map $x_client_id $oidc_client {
-       default "{{Your-IDP-Client-ID}}";
+       default "{{edit-your-IdP-client-ID}}";
    }
 
    map $x_client_id $oidc_logout_query_params_enable {
@@ -71,9 +71,6 @@ Take the following steps to set up NGINX Plus as the OpenID Connect relying part
            "client_id": "$oidc_client",
            "returnTo" : "$redirect_base/_logout"
        }';
-   }
-   map $x_client_id $oidc_client {
-       default "{{edit-your-IdP-client-ID}}";
    }
    ```
 
