@@ -130,7 +130,10 @@ var doAPIRequest = function(evt, uri, msgBefore, msgAfter, headers) {
   const url = window.location.origin + uri;
   fetch(url, {
       method : 'GET',
-      mode   : 'no-cors',
+      mode: 'no-cors', // no-cors, *cors, same-origin
+      // credentials: 'same-origin', // include, *same-origin, omit
+      redirect: 'follow', // manual, *follow, error
+      // referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
       headers: headers
   })
   .then((response) => {
