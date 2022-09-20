@@ -10,6 +10,7 @@ services:
     image: nginx_oidc_auth0_ubuntu18.04
     ports:
       - 443:443
+      - 12000:12000
     volumes:
       - type: bind
         source: ./
