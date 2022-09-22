@@ -35,7 +35,7 @@ Take the following steps to set up NGINX Plus as the OpenID Connect relying part
 
    ```nginx
    map $x_client_id $idp_domain {
-       default '{{Your-IDP-Domain}}';
+       default '{{Edit-Your-IDP-Domain}}';
    }
 
    map $x_client_id $oidc_authz_endpoint {
@@ -57,30 +57,33 @@ Take the following steps to set up NGINX Plus as the OpenID Connect relying part
    map $x_client_id $oidc_userinfo_endpoint {
        default https://$idp_domain/userinfo;
    }
-
-   map $x_client_id $oidc_client {
-       default "{{edit-your-IdP-client-ID}}";
-   }
-
+   
    map $x_client_id $oidc_logout_query_params_enable {
        default 1; # 0: OIDC RP-initiated logout, 1: custom logout
    }
-
+   
    map $x_client_id $oidc_logout_query_params {
        default '{
            "client_id": "$oidc_client",
            "returnTo" : "$redirect_base/_logout"
        }';
    }
+
    ```
 
-4. In the `oidc_idp.conf`, update `$oidc_client_secret`, and `oidc_pkce_enable`.
-
+4. In the `oidc_idp.conf`, update `$oidc_client` and then update `$oidc_client_secret`, and `oidc_pkce_enable`accordingly as shown in below Options.
+     
+    ```nginx
+    map $x_client_id $oidc_client {
+       default "{{Edit-Your-IdP-ClientID}}";
+    }
+    ```
    - Option 1. Update the following configuration if you don't enable **PKCE**.
 
      ```nginx
+
      map $x_client_id $oidc_client_secret {
-         default "{{Your-IDP-Client-Secret}}";
+         default "{{Edit-Your-IDP-ClientSecret}}";
      }
 
      map $x_client_id $oidc_pkce_enable {
@@ -106,7 +109,12 @@ Take the following steps to set up NGINX Plus as the OpenID Connect relying part
     resolver   8.8.8.8;    # For DNS lookup of IDP endpoint
              # 127.0.0.11; # For local Docker DNS lookup
    ```
-
+   Note : If you update anything in the `oidc_nginx_server.conf` , reload nginx by using below command.
+   
+   `````nginx
+    sudo nginx -s reload
+   `````
+  
 ## Optional Configuration
 
 This repo provides a sample container environment. So you can skip this step if you would like to locally test with a container.
