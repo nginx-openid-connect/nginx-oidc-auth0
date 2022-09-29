@@ -239,8 +239,8 @@ Configure a Dev Portal by either referencing **NGINX Management Suite Docs** of 
 ## 3. Test Dev Portal OIDC with Auth0
 
 - Open a web browser and access the Dev Portal's FQDN like `http://nginx.devportal.auth0.test`.
-- ![](./img/logged-out-devPortal.png)
+  ![](./img/logged-out-devPortal.png)
 - Try `Login` and `Logout`.
-- ![](./img/login-auth0-devPortal.png)
-- ![](./img/logged-in-devPortal.png)
+  ![](./img/login-auth0-devPortal.png)
+  ![](./img/logged-in-devPortal.png)
 - Test the above TWO steps after changing IdP (PKCE option) and updating Dev Portal via NGINX ACM API.
