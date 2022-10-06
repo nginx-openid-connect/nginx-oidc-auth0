@@ -8,27 +8,27 @@ Take the following steps to set up NGINX Dev Portal OIDC and test it for Auth0 i
 
   Ensure that you use **different application and callback/logout URLs** as the following example unlike that are already created to test your [containerized NGINX Plus](./02-NGINX-Plus-Setup.md).
 
-  | Category | Example |
-  |---| --- |
-  | Application Name      | `nginx-devportal-app` |
+  | Category              | Example                                      |
+  | --------------------- | -------------------------------------------- |
+  | Application Name      | `nginx-devportal-app`                        |
   | Allowed Callback URLs | `http://nginx.devportal.auth0.test/_codexch` |
-  | Allowed Logout URLs   | `http://nginx.devportal.auth0.test/_logout` |
+  | Allowed Logout URLs   | `http://nginx.devportal.auth0.test/_logout`  |
 
 - Edit `hosts` file in your laptop via if you want to locally test your app:
 
   ```bash
   $ sudo vi /etc/hosts
-  127.0.0.1 nginx.devportal.auth0.test  #Note : The provided IP address should be of the host where you installed the Dev Portal packages . 
+  127.0.0.1 nginx.devportal.auth0.test  #Note : The provided IP address should be of the host where you installed the Dev Portal packages .
   # Also make sure your controller and Dev Portal /etc/hosts files have similar entries.
   ```
-  
+
 ## 2. Install NGINX API Connectivity Manager
 
 - [Download NGINX Management Suite](https://docs.nginx.com/nginx-management-suite/)
 
 - [Install NGINX API Connectivity Manager](https://docs.nginx.com/nginx-management-suite/admin-guides/installation/install-guide/)
 
-## 2. Set Up NGINX Dev Portal
+## 3. Set Up NGINX Dev Portal
 
 Configure a Dev Portal by either referencing **NGINX Management Suite Docs** of [How To Set Up a NGINX Dev Portal](https://docs.nginx.com/nginx-management-suite/acm/getting-started/add-devportal/) or taking the following steps of calling APIs:
 
