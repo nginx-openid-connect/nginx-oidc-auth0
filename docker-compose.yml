@@ -9,7 +9,7 @@ services:
       dockerfile: ./docker/docker-files/nginxplus-ubuntu18.04/Dockerfile
     image: nginxplus_oidc_auth0_ubuntu18.04
     ports:
-      - 443:443
+      - 12000:12000
     volumes:
       - type: bind
         source: ./
