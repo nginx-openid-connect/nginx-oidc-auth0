@@ -822,7 +822,7 @@ function isValidSession(r) {
 function validateSession(r) {
     if (!isValidSession(r)) {
         r.warn(WRN_SESSION)
-        r.return(401, '{"message": "' + WRN_SESSION + '"}\n')
+        r.return(403, '{"message": "' + WRN_SESSION + '"}\n')
         return false;
     }
     r.return(200, '{"message": "' + INF_SESSION + '"}\n') 
