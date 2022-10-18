@@ -62,10 +62,10 @@ In this section, you wll set up a web application that follows the [Auth0 Author
 
 7. In the **Advanced Settings** section, select the **Grant Types** tab.
 
-   - Option 1. Choose **Authorization Code, Refresn Token, Client Credentials, Password** if you don't enable **PKCE**.
+   - Option 1. Choose **Authorization Code, Refresh Token, Client Credentials, Password** if you don't enable **PKCE**.
      ![](./img/grant-types-none-pkce.png)
 
-   - Option 2. Choose **Authorization Code, Refresn Token, Password** if you enable **PKCE**.
+   - Option 2. Choose **Authorization Code, Refresh Token, Password** if you enable **PKCE**.
      ![](./img/grant-types-pkce.png)
 
 8. In the **Advanced Settings** section, select the **Endpoints** tab.
