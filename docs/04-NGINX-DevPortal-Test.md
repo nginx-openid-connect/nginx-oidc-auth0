@@ -156,6 +156,10 @@ Configure a Dev Portal by either referencing **NGINX Management Suite Docs** of 
   > }
   > ```
 
+- Delete an environment of `Dev Portal`:
+
+  > `DELETE https://{{ctrl_ip}}/api/acm/v1/infrastructure/workspaces/{{infraworkspacename}}/environments/{{environmentname}}`
+
 - SSH into the instance of Dev Portal, and run the following commands:
 
   ```ssh
