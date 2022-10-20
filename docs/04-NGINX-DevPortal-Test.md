@@ -34,7 +34,7 @@ Configure a Dev Portal by either referencing **NGINX Management Suite Docs** of 
 
 > **Note**:
 >
-> [Download an example of postman collection](./ACM-DevPortal-OIDC.postman_collection.json) for easily testing the following steps.
+> [Download an example of postman collection](./ACM-DevPortal-OIDC-for-Auth0.postman_collection.json) for easily testing the following steps.
 
 - Open a Postman collection, and edit ACM password and variables:
   ![](./img/postman-auth.png)
@@ -67,59 +67,78 @@ Configure a Dev Portal by either referencing **NGINX Management Suite Docs** of 
 - Create an environment of `Dev Portal`:
 
   > `POST https://{{ctrl_ip}}/api/acm/v1/infrastructure/workspaces/{{infraworkspacename}}/environments`
-  >
-  > `Body`:
-  >
+
+  **Option 1. Request Body for None PKCE**:
+
+  ```json
+  {
+    "name": "{{environmentname}}",
+    "functions": ["DEVPORTAL"],
+    "proxies": [
+      {
+        "proxyClusterName": "{{devPinstanceGroupName}}",
+        "hostnames": ["{{devPenvironmentHostname}}"],
+        "runtime": "PORTAL-PROXY",
+        "policies": {
+          "oidc-authz": [
+            {
+              "action": {
+                "authFlowType": "AUTHCODE",
+                "jwksURI": "https://{{auth0Domain}}/.well-known/jwks.json",
+                "tokenEndpoint": "https://{{auth0Domain}}/oauth/token",
+                "userInfoEndpoint": "https://{{auth0Domain}}/userinfo",
+                "authorizationEndpoint": "https://{{auth0Domain}}/authorize",
+                "logOffEndpoint": "https://{{auth0Domain}}/v2/logout",
+                "logOutParams": [
+                  {
+                    "paramType": "QUERY",
+                    "key": "returnTo",
+                    "value": "http://{{devPenvironmentHostname}}/_logout"
+                  },
+                  {
+                    "key": "client_id",
+                    "paramType": "QUERY",
+                    "value": "{{clientId}}"
+                  }
+                ],
+                "TokenParams": [
+                  {
+                    "paramType": "HEADER",
+                    "key": "Accept-Encoding",
+                    "value": "gzip"
+                  }
+                ],
+                "uris": {
+                  "loginURI": "/login",
+                  "logoutURI": "/logout",
+                  "redirectURI": "/_codexch",
+                  "userInfoURI": "/userinfo"
+                }
+              },
+              "data": [
+                {
+                  "clientID": "{{clientId}}",
+                  "clientSecret": "{{clientSecret}}",
+                  "scopes": "openid+profile+email+offline_access"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  }
+  ```
+
+  **Option 2. Request Body for PKCE**:
+
   > ```json
   > {
-  >   "name": "{{environmentname}}",
-  >   "functions": ["DEVPORTAL"],
-  >   "proxies": [
-  >     {
-  >       "proxyClusterName": "{{devPinstanceGroupName}}",
-  >       "hostnames": ["{{devPenvironmentHostname}}"],
-  >       "runtime": "PORTAL-PROXY",
-  >       "policies": {
-  >         "oidc-authz": [
-  >           {
-  >             "action": {
-  >               "jwksURI": "https://{{auth0Domain}}/.well-known/jwks.json",
-  >               "tokenEndpoint": "https://{{auth0Domain}}/oauth/token",
-  >               "userInfoEndpoint": "https://{{auth0Domain}}/userinfo",
-  >               "authorizationEndpoint": "https://{{auth0Domain}}/authorize",
-  >               "logOffEndpoint": "https://{{auth0Domain}}/v2/logout",
-  >               "logOutParams": [
-  >                 {
-  >                   "paramType": "QUERY",
-  >                   "key": "returnTo",
-  >                   "value": "http://{{devPenvironmentHostname}}/_logout"
-  >                 },
-  >                 {
-  >                   "key": "client_id",
-  >                   "paramType": "QUERY",
-  >                   "value": "{{clientId}}"
-  >                 }
-  >               ],
-  >               "TokenParams": [
-  >                 {
-  >                   "paramType": "HEADER",
-  >                   "key": "Accept-Encoding",
-  >                   "value": "gzip"
-  >                 }
-  >               ]
-  >             },
-  >             "data": [
-  >               {
-  >                 "clientID": "{{clientId}}",
-  >                 "clientSecret": "{{clientSecret}}",
-  >                 "scopes": "openid+profile+email+offline_access"
-  >               }
-  >             ]
-  >           }
-  >         ]
-  >       }
-  >     }
-  >   ]
+  >        :
+  >   "authFlowType": "PKCE",
+  >        :
+  >   "clientSecret": "{{clientSecret}}", -> Remove this line.
+  >        :
   > }
   > ```
 
@@ -137,104 +156,15 @@ Configure a Dev Portal by either referencing **NGINX Management Suite Docs** of 
   > }
   > ```
 
+- Delete an environment of `Dev Portal`:
+
+  > `DELETE https://{{ctrl_ip}}/api/acm/v1/infrastructure/workspaces/{{infraworkspacename}}/environments/{{environmentname}}`
+
 - SSH into the instance of Dev Portal, and run the following commands:
 
   ```ssh
   curl -k https://<CTRL-FQDN>/install/nginx-agent > install.sh && sudo sh install.sh -g devp-group && sudo systemctl start nginx-agent
   ```
-
-- Option 1. Upsert an environment of `Dev Portal` for `none-PKCE`
-
-  > `PUT https://{{ctrl_ip}}/api/acm/v1/infrastructure/workspaces/{{infraworkspacename}}/environments/{{environmentname}}`
-  >
-  > `Body`:
-  >
-  > ```json
-  > {
-  >   "name": "{{environmentname}}",
-  >   "type": "NON-PROD",
-  >   "functions": ["DEVPORTAL"],
-  >   "proxies": [
-  >     {
-  >       "proxyClusterName": "{{devPinstanceGroupName}}",
-  >       "hostnames": ["{{devPenvironmentHostname}}"],
-  >       "runtime": "PORTAL-PROXY",
-  >       "listeners": [
-  >         {
-  >           "ipv6": false,
-  >           "isTLSEnabled": false,
-  >           "port": 80,
-  >           "transportProtocol": "HTTP"
-  >         }
-  >       ],
-  >       "policies": {
-  >         "oidc-authz": [
-  >           {
-  >             "action": {
-  >               "authFlowType": "AUTHCODE",
-  >               "authorizationEndpoint": "https://{{auth0Domain}}/authorize",
-  >               "jwksURI": "https://{{auth0Domain}}/.well-known/jwks.json",
-  >               "logOffEndpoint": "https://{{auth0Domain}}/v2/logout",
-  >               "logOutParams": [
-  >                 {
-  >                   "key": "returnTo",
-  >                   "paramType": "QUERY",
-  >                   "value": "http://{{devPenvironmentHostname}}/_logout"
-  >                 },
-  >                 {
-  >                   "key": "client_id",
-  >                   "paramType": "QUERY",
-  >                   "value": "{{clientId}}"
-  >                 }
-  >               ],
-  >               "tokenEndpoint": "https://{{auth0Domain}}/oauth/token",
-  >               "tokenParams": [
-  >                 {
-  >                   "key": "Accept-Encoding",
-  >                   "paramType": "HEADER",
-  >                   "value": "gzip"
-  >                 }
-  >               ],
-  >               "uris": {
-  >                 "loginURI": "/login",
-  >                 "logoutURI": "/logout",
-  >                 "redirectURI": "/_codexch",
-  >                 "userInfoURI": "/userinfo"
-  >               },
-  >               "userInfoEndpoint": "https://{{auth0Domain}}/userinfo"
-  >             },
-  >             "data": [
-  >               {
-  >                 "appName": "nginx-devportal-app",
-  >                 "clientID": "{{clientId}}",
-  >                 "clientSecret": "{{clientSecret}}",
-  >                 "scopes": "openid+profile+email+offline_access",
-  >                 "source": "ACM"
-  >               }
-  >             ]
-  >           }
-  >         ]
-  >       }
-  >     }
-  >   ]
-  > }
-  > ```
-
-- Option 2. Upsert an environment of `Dev Portal` for `PKCE`:
-
-  > `PUT https://{{ctrl_ip}}/api/acm/v1/infrastructure/workspaces/{{infraworkspacename}}/environments/{{environmentname}}`
-  >
-  > `Body`:
-  >
-  > ```
-  > {
-  >        :
-  >   "authFlowType": "PKCE",
-  >        :
-  >   "clientSecret": "",
-  >        :
-  > }
-  > ```
 
 ## 3. Test Dev Portal OIDC with Auth0
 
